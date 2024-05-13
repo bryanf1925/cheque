@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: #007bff;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    p {
+      text-align: center;
+    }
+
+    #app {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input[type="text"], input[type="number"], input[type="file"], input[type="submit"] {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    .output {
+      text-align: center;
+    }
+
+    .output p {
+      font-weight: bold;
+    }
+
+    .digitos-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .digitos-container img {
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Aplicacion cheque</h1>
+  <div id="app">
+    <form  method="post" enctype="multipart/form-data">
+      {% csrf_token %} {{ formulario.as_p }}
+      <input type="submit" value="Submit" />
+    </form>
+    {% if digitos is not null %}
+        <h2>Espacion de referencias:</h2>
+        <div class="digitos-container">
+            <img src="data:image/png;base64,{{roi}}" alt="Roi">
+        </div>
+    
+        <h2>Dígitos extraídos:</h2>
+        <div class="digitos-container">
+            {% for digito in digitos %}
+            <div>
+                <img src="data:image/png;base64,{{ digito }}" alt="Dígito">
+            </div>
+            {% endfor %}
+        </div>
+        <div class="output">
+          <p>La cantidad es: {{ numero }}</p>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
